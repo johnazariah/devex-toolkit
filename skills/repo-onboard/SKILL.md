@@ -80,12 +80,16 @@ Ask the user or infer from existing files. Collect ALL of these before generatin
 - Documentation location (e.g. `docs/`, wiki, none yet)
 - Config file format (YAML, JSON, TOML, XML)
 
-**1.4 — CI/CD**
+**1.4 — Architecture**
+- Architecture pattern: **Tagless-Final** (default). Abstract capabilities as records/interfaces of functions, parameterized over effect type. Concrete implementations wired at composition root. See `standards/code-quality.md` for examples.
+- Confirm with user or note if they prefer a different pattern.
+
+**1.6 — CI/CD**
 - CI platform (GitHub Actions assumed; confirm)
 - OS targets (Linux only, macOS + Windows, etc.)
 - Deploy targets (if any — NuGet, PyPI, npm, Docker, etc.)
 
-**1.5 — AI & Tools**
+**1.7 — AI & Tools**
 - Ollama / local AI usage (for copilot-instructions context)
 - MCP servers (for VS Code MCP config)
 - DevContainer needed? (default: no)

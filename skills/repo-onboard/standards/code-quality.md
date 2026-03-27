@@ -74,3 +74,46 @@ Production code should compile cleanly:
 - .NET: `<Nullable>enable</Nullable>`
 - TypeScript: `strictNullChecks: true`
 - Python: type annotations + pyright strict
+
+## Architecture: Tagless-Final (Default)
+
+For projects with multiple backend providers or external dependencies, use the **Tagless-Final** pattern as the default architecture. Define capabilities as abstract records of functions parameterized over the effect type. Wire concrete implementations at the composition root.
+
+This applies to any abstraction boundary: API clients, storage, AI backends, search engines, etc.
+
+### F# Example
+
+```fsharp
+type EmailProvider<'F> = {
+    ListMessages: DateTimeOffset option -> 'F<EmailMessage list>
+    GetAttachments: string -> 'F<EmailAttachment list>
+}
+// Concrete: GmailProvider : EmailProvider<Task>
+// Test:     FakeProvider  : EmailProvider<Id>
+```
+
+### Python Example (Protocol-based equivalent)
+
+```python
+from typing import Protocol
+
+class EmailProvider(Protocol):
+    def list_messages(self, since: datetime | None) -> list[EmailMessage]: ...
+    def get_attachments(self, message_id: str) -> list[EmailAttachment]: ...
+```
+
+### TypeScript Example
+
+```typescript
+interface EmailProvider<F> {
+    listMessages: (since?: Date) => F<EmailMessage[]>;
+    getAttachments: (messageId: string) => F<EmailAttachment[]>;
+}
+```
+
+### Why
+
+- Testability: swap in pure/fake interpreters without mocks
+- Extensibility: new provider = new record value, no interface changes
+- Composability: pipeline stages stay abstract over their effects
+- Clarity: capabilities are explicit, not hidden behind DI registrations
