@@ -67,7 +67,7 @@ Ask the user or infer from existing files. Collect ALL of these before generatin
 - Author name (for LICENSE)
 
 **1.2 — Language & Stack**
-- Primary language(s) and version (e.g. ".NET 9 / F#", "Python 3.12", "TypeScript 5")
+- Primary language(s) and version (e.g. ".NET 10 / F#", "Python 3.12", "TypeScript 5")
 - Build tool / commands (`dotnet build`, `npm run build`, `make`, etc.)
 - Test tool / commands (`dotnet test`, `pytest`, `npm test`, etc.)
 - Formatter (Fantomas, ruff, prettier, dotnet format, etc.)
