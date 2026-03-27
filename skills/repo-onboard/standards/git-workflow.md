@@ -1,5 +1,24 @@
 # Standard: Git Workflow
 
+## CI Cost Control
+
+**Self-hosted runners are mandatory for macOS and Windows CI.** GitHub-hosted macOS runners cost 10x Linux minutes; Windows costs 2x. Only use `ubuntu-latest` for Linux-only jobs.
+
+**Artifact retention: 3 days.** Set `retention-days: 3` on all `actions/upload-artifact` steps. GitHub artifact storage is not for long-term retention.
+
+```yaml
+# Example: cross-platform CI matrix with self-hosted runners
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest        # GitHub-hosted — cheap
+          - os: self-hosted-macos    # self-hosted — no minute cost
+          - os: self-hosted-windows  # self-hosted — no minute cost
+    runs-on: ${{ matrix.os }}
+```
+
 ## Branch Naming
 
 Format: `{type}/{issue-id}-{short-description}`

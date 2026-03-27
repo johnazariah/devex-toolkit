@@ -89,6 +89,8 @@ Ask the user or infer from existing files. Collect ALL of these before generatin
 **1.6 — CI/CD**
 - CI platform (GitHub Actions assumed; confirm)
 - OS targets (Linux only, macOS + Windows, etc.)
+- **Self-hosted runners**: For cross-platform builds (macOS, Windows), **always use self-hosted runners**. GitHub-hosted macOS runners cost 10x and Windows 2x vs Linux. Only use `ubuntu-latest` for Linux-only jobs.
+- Artifact retention: **3 days max** for CI artifacts. Do not use GitHub artifact storage for long-term retention.
 - Deploy targets (if any — NuGet, PyPI, npm, Docker, etc.)
 
 **1.7 — AI & Tools**
@@ -146,6 +148,8 @@ Follow the structure in `standards/documentation.md`:
 **3.2 — `.github/workflows/ci.yml`**
 - Trigger: push/PR to main/master
 - OS matrix from discovery
+- **Self-hosted runners for macOS and Windows** — never use `macos-latest` or `windows-latest` for cross-platform CI (10x and 2x minute multipliers). Use `ubuntu-latest` only for Linux. Self-hosted labels from discovery.
+- **Artifact retention**: set `retention-days: 3` on all `upload-artifact` steps
 - Steps: checkout → setup toolchain → restore → build → test
 - Use pinned action versions
 
