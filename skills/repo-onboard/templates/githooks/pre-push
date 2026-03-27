@@ -1,0 +1,25 @@
+#!/bin/sh
+# Pre-push hook — full quality gate before pushing.
+# Customise BUILD_CMD and TEST_CMD for your project.
+set -e
+
+# === PROJECT-SPECIFIC — edit these ===
+BUILD_CMD="dotnet build --nologo -v q"
+TEST_CMD="dotnet test --nologo -v q"
+# =====================================
+
+echo "── pre-push quality gate ──"
+
+echo "[1/2] Building..."
+if ! $BUILD_CMD; then
+    echo "ERROR: Build failed."
+    exit 1
+fi
+
+echo "[2/2] Running tests..."
+if ! $TEST_CMD; then
+    echo "ERROR: Tests failed."
+    exit 1
+fi
+
+echo "── pre-push passed ──"
