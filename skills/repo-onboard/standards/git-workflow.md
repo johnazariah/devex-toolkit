@@ -8,14 +8,15 @@
 
 ```yaml
 # Example: cross-platform CI matrix with self-hosted runners
+# Runner labels from the shared BuildBeast pool
 jobs:
   build:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest        # GitHub-hosted — cheap
-          - os: self-hosted-macos    # self-hosted — no minute cost
-          - os: self-hosted-windows  # self-hosted — no minute cost
+          - os: ubuntu-latest                              # GitHub-hosted
+          - os: [self-hosted, macOS, ARM64]                # self-hosted Mac
+          - os: [self-hosted, Windows, X64, buildbeast]    # self-hosted Windows
     runs-on: ${{ matrix.os }}
 ```
 
