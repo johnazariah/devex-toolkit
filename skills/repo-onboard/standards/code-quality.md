@@ -75,6 +75,14 @@ Production code should compile cleanly:
 - TypeScript: `strictNullChecks: true`
 - Python: type annotations + pyright strict
 
+## .NET Language Selection
+
+**Default: F# for core logic, C# for UI bindings.**
+
+F# is preferred for domain modelling, data pipelines, and Tagless-Final architectures. C# is used for Avalonia/MAUI XAML bindings where tooling requires it.
+
+**Exception — Orleans**: If the project uses Microsoft Orleans (virtual actors, grain persistence), use **C# throughout**. Orleans' serialization code generation, grain interfaces, and source generators are C#-first. F# interop is technically possible but causes friction with `[<GenerateSerializer>]`, surrogate patterns, and grain state serialization.
+
 ## Architecture: Tagless-Final (Default)
 
 For projects with multiple backend providers or external dependencies, use the **Tagless-Final** pattern as the default architecture. Define capabilities as abstract records of functions parameterized over the effect type. Wire concrete implementations at the composition root.

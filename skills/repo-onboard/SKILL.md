@@ -68,6 +68,8 @@ Ask the user or infer from existing files. Collect ALL of these before generatin
 
 **1.2 — Language & Stack**
 - Primary language(s) and version (e.g. ".NET 10 / F#", "Python 3.12", "TypeScript 5")
+- For .NET projects, **default to F# for core logic, C# for UI** (Avalonia/MAUI XAML bindings).
+  Exception: if the project uses **Orleans**, default to C# throughout (Orleans serialization/code generation is C#-first and F# interop is painful).
 - Build tool / commands (`dotnet build`, `npm run build`, `make`, etc.)
 - Test tool / commands (`dotnet test`, `pytest`, `npm test`, etc.)
 - Formatter (Fantomas, ruff, prettier, dotnet format, etc.)
