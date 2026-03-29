@@ -32,9 +32,9 @@ Or add via VS Code: File → Add Folder to Workspace → select `devex-toolkit`.
 git submodule add https://github.com/johnazariah/devex-toolkit.git .devex-toolkit
 ```
 
-Agents in `.devex-toolkit/agents/` need to be symlinked to `.github/agents/`:
+Agents in `.devex-toolkit/.github/agents/` need to be symlinked to `.github/agents/`:
 ```bash
-ln -s ../../.devex-toolkit/agents/repo-onboarder.agent.md .github/agents/repo-onboarder.agent.md
+ln -s ../../.devex-toolkit/.github/agents/repo-onboarder.agent.md .github/agents/repo-onboarder.agent.md
 ```
 
 #### Option C: Clone alongside

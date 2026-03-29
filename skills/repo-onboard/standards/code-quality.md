@@ -100,6 +100,19 @@ type EmailProvider<'F> = {
 // Test:     FakeProvider  : EmailProvider<Id>
 ```
 
+### C# Example
+
+```csharp
+// Interface approach (when implementations need state/DI)
+public interface IEmailProvider
+{
+    Task<IReadOnlyList<EmailMessage>> ListMessagesAsync(DateTimeOffset? since, CancellationToken ct);
+    Task<IReadOnlyList<Attachment>> GetAttachmentsAsync(string messageId, CancellationToken ct);
+}
+// Concrete: GmailProvider : IEmailProvider
+// Test:     FakeEmailProvider : IEmailProvider (simple class, not mocked)
+```
+
 ### Python Example (Protocol-based equivalent)
 
 ```python
@@ -125,3 +138,19 @@ interface EmailProvider<F> {
 - Extensibility: new provider = new record value, no interface changes
 - Composability: pipeline stages stay abstract over their effects
 - Clarity: capabilities are explicit, not hidden behind DI registrations
+
+## F# Idiom Standard
+
+For F# projects, the architecture above must be combined with idiomatic F# coding practices. See `skills/fsharp-dev/standards/idiomatic-fsharp.md` for the comprehensive standard covering function size, pipelining, mutation avoidance, task composition, Option/Result combinators, type discipline, module organisation, and deep Tagless-Final implementation patterns.
+
+## C# Idiom Standard
+
+For C# projects, see `skills/csharp-dev/standards/idiomatic-csharp.md` for the comprehensive standard covering immutability (records), non-nullability, primary constructors, LINQ pipelines, pattern matching, value semantics, and practical Tagless-Final with interfaces.
+
+## TypeScript Idiom Standard
+
+For TypeScript projects, see `skills/typescript-dev/standards/idiomatic-typescript.md` for the comprehensive standard covering strict mode, discriminated unions, readonly data, Result types, branded types, and Tagless-Final with capability interfaces.
+
+## Python Idiom Standard
+
+For Python projects, see `skills/python-dev/standards/idiomatic-python.md` for the comprehensive standard covering full type annotations, frozen dataclasses, Protocol-based Tagless-Final, structural pattern matching, Result types, and comprehensions.

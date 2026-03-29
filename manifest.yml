@@ -1,0 +1,257 @@
+version: "0.2.0"
+github: johnazariah/devex-toolkit
+
+# ============================================================
+# Topologies — project shapes that select languages, standards, and CI
+# ============================================================
+topologies:
+  dotnet-app:
+    description: ".NET application (console, service, desktop)"
+    languages: [csharp]
+    build: "dotnet build"
+    test: "dotnet test"
+
+  dotnet-lib:
+    description: ".NET library published to NuGet"
+    languages: [csharp]
+    build: "dotnet build"
+    test: "dotnet test"
+    publish: "dotnet pack → dotnet nuget push"
+    extra_files:
+      - dest: .github/workflows/publish-nuget.yml
+        type: generated
+      - dest: Directory.Build.props
+        type: template
+        managed_sections: [package-metadata]
+    extra_standards:
+      - csharp: nuget-library
+
+  python-app:
+    description: "Python application"
+    languages: [python]
+    build: "python -m build"
+    test: "pytest"
+
+  python-lib:
+    description: "Python library published to PyPI"
+    languages: [python]
+    build: "python -m build"
+    test: "pytest"
+    publish: "twine upload"
+    extra_files:
+      - dest: .github/workflows/publish-pypi.yml
+        type: generated
+      - dest: pyproject.toml
+        type: scaffolded
+    extra_standards:
+      - python: pypi-library
+
+  orleans-aspire-react:
+    description: "C#/Orleans/Aspire 13 backend + Vite/React frontend"
+    languages: [csharp, typescript]
+    build: "dotnet build && npm run build"
+    test: "dotnet test && npm test"
+    extra_files:
+      - dest: .github/workflows/ci.yml
+        type: generated
+      - dest: Directory.Build.props
+        type: template
+    extra_standards:
+      - csharp: [orleans-grains, aspire-patterns]
+      - typescript: react-vite
+
+files:
+  # ============================================================
+  # Invariant — identical across projects, minor var substitution
+  # ============================================================
+  - src: skills/repo-onboard/templates/githooks/pre-commit
+    dest: .githooks/pre-commit
+    type: invariant
+    vars: [build_command]
+
+  - src: skills/repo-onboard/templates/githooks/pre-push
+    dest: .githooks/pre-push
+    type: invariant
+    vars: [build_command, test_command]
+
+  - src: skills/repo-onboard/templates/github/ISSUE_TEMPLATE/bug.md
+    dest: .github/ISSUE_TEMPLATE/bug.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/ISSUE_TEMPLATE/feature.md
+    dest: .github/ISSUE_TEMPLATE/feature.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/ISSUE_TEMPLATE/task.md
+    dest: .github/ISSUE_TEMPLATE/task.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/PULL_REQUEST_TEMPLATE.md
+    dest: .github/PULL_REQUEST_TEMPLATE.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/commit.prompt.md
+    dest: .github/prompts/commit.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/pick-next-work.prompt.md
+    dest: .github/prompts/pick-next-work.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/pr-prep.prompt.md
+    dest: .github/prompts/pr-prep.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/release.prompt.md
+    dest: .github/prompts/release.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/debug-test-failure.prompt.md
+    dest: .github/prompts/debug-test-failure.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/github/prompts/start-phase.prompt.md
+    dest: .github/prompts/start-phase.prompt.md
+    type: invariant
+
+  - src: skills/repo-onboard/templates/root/CHANGELOG.md
+    dest: CHANGELOG.md
+    type: invariant
+
+  # ============================================================
+  # Scaffolded — created once, fully user-owned after that
+  # ============================================================
+  - src: skills/repo-onboard/templates/project/testing-register.md
+    dest: .project/testing-register.md
+    type: scaffolded
+
+  - src: skills/repo-onboard/templates/project/learnings.md
+    dest: .project/learnings.md
+    type: scaffolded
+
+  - src: skills/repo-onboard/templates/project/future-enhancement-ideas.md
+    dest: .project/future-enhancement-ideas.md
+    type: scaffolded
+
+  - src: skills/repo-onboard/templates/project/phases.md
+    dest: .project/phases.md
+    type: scaffolded
+
+  # ============================================================
+  # Language agents — managed core + project-specific context
+  # ============================================================
+  - src: .github/agents/fsharp-dev.agent.md
+    dest: .github/agents/fsharp-dev.agent.md
+    type: agent
+    language: fsharp
+    requires: [dotnet]
+
+  - src: .github/agents/csharp-dev.agent.md
+    dest: .github/agents/csharp-dev.agent.md
+    type: agent
+    language: csharp
+    requires: [dotnet]
+
+  - src: .github/agents/python-dev.agent.md
+    dest: .github/agents/python-dev.agent.md
+    type: agent
+    language: python
+    requires: [python]
+
+  - src: .github/agents/typescript-dev.agent.md
+    dest: .github/agents/typescript-dev.agent.md
+    type: agent
+    language: typescript
+    requires: [node]
+
+  - src: .github/agents/repo-onboarder.agent.md
+    dest: .github/agents/repo-onboarder.agent.md
+    type: agent
+
+  # ============================================================
+  # Templates — variable substitution, no user edits expected
+  # ============================================================
+  - dest: .editorconfig
+    type: template
+    vars: [languages]
+
+  - dest: .gitattributes
+    type: template
+    vars: [languages]
+
+  - dest: .gitignore
+    type: template
+    vars: [languages]
+
+  - dest: LICENSE
+    type: template
+    vars: [author_name, year, license_type]
+
+  - dest: "{{project_name}}.code-workspace"
+    type: template
+    vars: [project_name]
+
+  # ============================================================
+  # Generated — rules engine + discovery, managed sections
+  # ============================================================
+  - dest: .github/copilot-instructions.md
+    type: generated
+    managed_sections: [idiom-standards]
+
+  - dest: .github/workflows/ci.yml
+    type: generated
+    vars: [build_command, test_command, os_matrix, runner_labels]
+
+  - dest: .vscode/settings.json
+    type: generated
+    vars: [languages, formatters]
+
+  - dest: README.md
+    type: generated
+    managed_sections: [badges, tech-stack]
+
+  - dest: .project/STATUS.md
+    type: generated
+
+  # ============================================================
+  # Topology-specific standards — loaded when topology is active
+  # ============================================================
+  - src: skills/csharp-dev/standards/orleans-patterns.md
+    type: standard
+    topology: orleans-aspire-react
+
+  - src: skills/csharp-dev/standards/aspire-patterns.md
+    type: standard
+    topology: orleans-aspire-react
+
+  - src: skills/typescript-dev/standards/react-vite-patterns.md
+    type: standard
+    topology: orleans-aspire-react
+
+  - src: skills/csharp-dev/standards/nuget-library.md
+    type: standard
+    topology: dotnet-lib
+
+  - src: skills/python-dev/standards/pypi-library.md
+    type: standard
+    topology: python-lib
+
+  # ============================================================
+  # Topology-specific CI workflows — generated on setup/add
+  # ============================================================
+  - dest: .github/workflows/publish-nuget.yml
+    type: generated
+    topology: dotnet-lib
+    vars: [dotnet_version, nuget_source]
+
+  - dest: .github/workflows/publish-pypi.yml
+    type: generated
+    topology: python-lib
+    vars: [python_version, pypi_project_name]
+
+  # ============================================================
+  # Release process — invariant across all topologies
+  # ============================================================
+  - src: skills/repo-onboard/templates/github/prompts/release.prompt.md
+    dest: .github/prompts/release.prompt.md
+    type: invariant
