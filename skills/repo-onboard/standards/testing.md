@@ -53,6 +53,16 @@ Tag tests with categories for selective execution:
 
 ## Coverage
 
-- Track coverage in CI (Coverlet, pytest-cov, istanbul, etc.)
-- Set a floor (recommended: 80%+ for new projects)
-- Report coverage in CI summary (badge in README)
+**Mandatory floor: 85% line coverage, 85% branch coverage.**
+
+- New code must maintain or improve coverage — never drop below the floor.
+- Track coverage in CI (Coverlet, pytest-cov, istanbul, etc.).
+- Enforce in the pre-commit hook — commits that drop coverage below 85% are rejected.
+- Report coverage in CI summary (badge in README).
+- Do not mark a task as complete if it drops coverage below the current level.
+
+| Tool | Language | Command |
+|------|----------|---------|
+| Coverlet | .NET (F#/C#) | `dotnet test --collect:"XPlat Code Coverage"` |
+| pytest-cov | Python | `pytest --cov=src --cov-report=term-missing` |
+| istanbul/c8 | TypeScript | `vitest run --coverage` |

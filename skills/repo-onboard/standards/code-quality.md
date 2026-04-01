@@ -83,6 +83,42 @@ F# is preferred for domain modelling, data pipelines, and Tagless-Final architec
 
 **Exception — Orleans**: If the project uses Microsoft Orleans (virtual actors, grain persistence), use **C# throughout**. Orleans' serialization code generation, grain interfaces, and source generators are C#-first. F# interop is technically possible but causes friction with `[<GenerateSerializer>]`, surrogate patterns, and grain state serialization.
 
+## Silver Thread Principle
+
+Every feature must be implemented as a **silver thread** — an unbroken chain from input to output and back:
+
+```
+Trigger (user action, API call, scheduled event)
+  → Processing (business logic, data transformation)
+    → State change (database, config, in-memory)
+      → Presentation (API response, UI update, notification)
+        → Observable outcome (user sees the result)
+```
+
+**Before marking any task complete, trace the full thread:**
+
+1. **Input**: What triggers this feature?
+2. **Processing**: What code runs?
+3. **State**: What changes?
+4. **Output**: What does the user/caller observe?
+
+**If ANY link in the chain is broken, the task is NOT done.** Common failures:
+
+| Failure | Symptom |
+|---------|---------|
+| UI exists but not wired | Dead buttons, empty panels |
+| Backend processes but UI never reads | Invisible feature |
+| Tests pass but feature doesn't work e2e | Integration gap |
+| Config saved but never reloaded | Settings don't take effect |
+| API endpoint exists but no caller | Unreachable code |
+
+For UI projects, a task is **not done** until:
+- Controls are laid out and styled
+- Event handlers are wired and functioning
+- Data is live (not placeholder text)
+- Build is clean (0 errors, 0 warnings)
+- The feature is smoke-tested end-to-end
+
 ## Architecture: Tagless-Final (Default)
 
 For projects with multiple backend providers or external dependencies, use the **Tagless-Final** pattern as the default architecture. Define capabilities as abstract records of functions parameterized over the effect type. Wire concrete implementations at the composition root.
