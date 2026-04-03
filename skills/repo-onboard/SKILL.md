@@ -213,9 +213,19 @@ Wait for confirmation.
 
 ### Phase 5: Git Setup
 
-1. Activate hooks: `git config core.hooksPath .githooks`
-2. Initial commit (if repo is new): `git add -A && git commit -m "chore: bootstrap devex infrastructure"`
-3. Offer to push: "Push to origin?"
+1. **Default branch**: Ensure the repo uses `main`, not `master`:
+   - Set globally: `git config --global init.defaultBranch main`
+   - If the current branch is `master`, rename it:
+     ```bash
+     git branch -m master main
+     git push -u origin main
+     # Then on GitHub: Settings → Branches → change default to main
+     # Then: git push origin --delete master
+     ```
+   - If the repo is brand new (no commits), `git init` will use `main` (from global config).
+2. Activate hooks: `git config core.hooksPath .githooks`
+3. Initial commit (if repo is new): `git add -A && git commit -m "chore: bootstrap devex infrastructure"`
+4. Offer to push: "Push to origin?"
 
 ### 🛑 STOP — Final Review
 

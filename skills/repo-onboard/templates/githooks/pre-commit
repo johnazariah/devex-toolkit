@@ -13,6 +13,14 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 
 echo "── pre-commit checks ──"
 
+# 0. Default branch check (warn once if on master)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" = "master" ]; then
+    echo "WARNING: Default branch should be 'main', not 'master'."
+    echo "  Rename with: git branch -m master main && git push -u origin main"
+    echo "  Then on GitHub: Settings → Branches → change default to main"
+fi
+
 # 1. Secrets detection
 echo "[1/6] Checking for secrets..."
 SECRETS_PATTERN='(password|secret|api[_-]?key|token|credential)\s*[:=]\s*["\x27][^"\x27]{8,}'

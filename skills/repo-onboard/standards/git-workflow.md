@@ -28,6 +28,8 @@ jobs:
 git config --global init.defaultBranch main
 ```
 
+**Enforcement:** `@repo-onboarder setup` detects if the repo is on `master` and renames to `main` automatically. The pre-commit hook warns if it detects a `master` branch.
+
 Feature branch format: `{type}/{issue-id}-{short-description}`
 
 Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
