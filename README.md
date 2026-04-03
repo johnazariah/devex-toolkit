@@ -43,7 +43,7 @@ Same steps, but `setup` is smart about existing files — it won't overwrite you
 
 ### Option C: No Clone Needed
 
-If you don't want to clone devex-toolkit locally, it still works. Your project's agent files have **GitHub fetch fallback** — they pull standards directly from this repo's `master` branch at runtime. You just won't get the multi-root workspace benefits (instant load, no network dependency).
+If you don't want to clone devex-toolkit locally, it still works. Your project's agent files have **GitHub fetch fallback** — they pull standards directly from this repo's `main` branch at runtime. You just won't get the multi-root workspace benefits (instant load, no network dependency).
 
 ---
 
@@ -135,7 +135,7 @@ Your project's agent files are **thin wrappers** with a three-tier loading strat
 
 ```
 1. Workspace peer    → reads from devex-toolkit if it's in your VS Code workspace (instant, no network)
-2. GitHub fetch      → pulls from raw.githubusercontent.com/johnazariah/devex-toolkit/master/... (always latest)
+2. GitHub fetch      → pulls from raw.githubusercontent.com/johnazariah/devex-toolkit/main/... (always latest)
 3. Inline fallback   → self-check table baked into the agent file (works offline, no dependencies)
 ```
 

@@ -26,8 +26,8 @@ Load the manifest and skill using this cascade (stop at the first that works):
    - `skills/repo-onboard/SKILL.md`
 
 **2. GitHub** — if not found locally, fetch from GitHub:
-   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/master/manifest.yml
-   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/master/skills/repo-onboard/SKILL.md
+   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/main/manifest.yml
+   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/main/skills/repo-onboard/SKILL.md
 
 ## Verbs
 

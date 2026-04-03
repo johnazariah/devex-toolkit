@@ -8,7 +8,7 @@ description: "Run quality gate, create branch, group commits, open PR, monitor C
 
 1. **Quality Gate**: Run build and tests. Fix any failures before proceeding.
 
-2. **Branch**: If on `main`/`master`, create a feature branch:
+2. **Branch**: If on `main`, create a feature branch:
    ```
    git checkout -b feat/<short-description>
    ```

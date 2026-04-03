@@ -146,7 +146,7 @@ Follow the structure in `standards/documentation.md`:
 - Tips for AI agents
 
 **3.2 — `.github/workflows/ci.yml`**
-- Trigger: push/PR to main/master
+- Trigger: push/PR to main
 - OS matrix from discovery
 - **Self-hosted runners for macOS and Windows** — never use `macos-latest` or `windows-latest` for cross-platform CI (10x and 2x minute multipliers). Use `ubuntu-latest` only for Linux. Self-hosted labels from discovery.
 - **Artifact retention**: set `retention-days: 3` on all `upload-artifact` steps

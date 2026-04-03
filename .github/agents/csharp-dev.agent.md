@@ -29,9 +29,9 @@ Load the full idiom standards using this cascade (stop at the first that works):
    - `skills/csharp-dev/SKILL.md`
 
 **2. GitHub** — if standards aren't found locally, fetch from GitHub:
-   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/master/skills/csharp-dev/standards/idiomatic-csharp.md
-   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/master/skills/repo-onboard/standards/code-quality.md
-   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/master/skills/csharp-dev/SKILL.md
+   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/main/skills/csharp-dev/standards/idiomatic-csharp.md
+   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/main/skills/repo-onboard/standards/code-quality.md
+   - https://raw.githubusercontent.com/johnazariah/devex-toolkit/main/skills/csharp-dev/SKILL.md
 
 **3. Inline fallback** — if GitHub is also unavailable, use the Self-Check table and Core Beliefs below.
 

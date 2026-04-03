@@ -22,7 +22,13 @@ jobs:
 
 ## Branch Naming
 
-Format: `{type}/{issue-id}-{short-description}`
+**Default branch: `main`.** All new repos must use `main` as the default branch, not `master`. Configure globally with:
+
+```bash
+git config --global init.defaultBranch main
+```
+
+Feature branch format: `{type}/{issue-id}-{short-description}`
 
 Types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
 

@@ -23,7 +23,7 @@ description: "Plan and execute the next available phase from the dependency grap
 
 6. **Read conventions**: Read `.github/copilot-instructions.md` for code style, testing, and project conventions.
 
-7. **Create branch**: `git checkout -b {branch}` from main/master.
+7. **Create branch**: `git checkout -b {branch}` from main.
 
 8. **Implement**: Work through every task in the spec. After each major section:
    - Run `dotnet build` (or the project's build command)
